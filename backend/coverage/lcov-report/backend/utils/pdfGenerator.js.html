@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">4.34% </span>
+                <span class="strong">95.65% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>1/23</span>
+                <span class='fraction'>22/23</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">4.76% </span>
+                <span class="strong">95.23% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>1/21</span>
+                <span class='fraction'>20/21</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -102,36 +102,36 @@
 <a name='L37'></a><a href='#L37'>37</a>
 <a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">366x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -139,36 +139,36 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import PDFDocument from "pdfkit";
 &nbsp;
-export const generatePDF = <span class="fstat-no" title="function not covered" >as</span>ync (data, title = <span class="branch-0 cbranch-no" title="branch not covered" >"Report")</span> =&gt; {
-<span class="cstat-no" title="statement not covered" >  return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve, reject) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    try {</span>
-      const doc = <span class="cstat-no" title="statement not covered" >new PDFDocument();</span>
-      const chunks = <span class="cstat-no" title="statement not covered" >[];</span>
+export const generatePDF = async (data, title = "Report") =&gt; {
+  return new Promise((resolve, reject) =&gt; {
+    try {
+      const doc = new PDFDocument();
+      const chunks = [];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      doc.on("data", <span class="fstat-no" title="function not covered" >(c</span>hunk) =&gt; <span class="cstat-no" title="statement not covered" >chunks.push(chunk))</span>;</span>
-<span class="cstat-no" title="statement not covered" >      doc.on("end", <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-        const result = <span class="cstat-no" title="statement not covered" >Buffer.concat(chunks);</span>
-<span class="cstat-no" title="statement not covered" >        resolve(result);</span>
+      doc.on("data", (chunk) =&gt; chunks.push(chunk));
+      doc.on("end", () =&gt; {
+        const result = Buffer.concat(chunks);
+        resolve(result);
       });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      doc.fontSize(18).text(title, { align: "center" });</span>
-<span class="cstat-no" title="statement not covered" >      doc.moveDown();</span>
+      doc.fontSize(18).text(title, { align: "center" });
+      doc.moveDown();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (data.length &gt; 0) {</span>
-        const headers = <span class="cstat-no" title="statement not covered" >Object.keys(data[0]);</span>
+      if (data.length &gt; 0) {
+        const headers = Object.keys(data[0]);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        doc.fontSize(12).text(headers.join(" | "), { underline: true });</span>
-<span class="cstat-no" title="statement not covered" >        doc.moveDown();</span>
+        doc.fontSize(12).text(headers.join(" | "), { underline: true });
+        doc.moveDown();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        data.forEach(<span class="fstat-no" title="function not covered" >(r</span>ow) =&gt; {</span>
-          const rowText = <span class="cstat-no" title="statement not covered" >headers.map(<span class="fstat-no" title="function not covered" >(k</span>ey) =&gt; <span class="cstat-no" title="statement not covered" >row[key])</span>.join(" | ");</span>
-<span class="cstat-no" title="statement not covered" >          doc.text(rowText);</span>
+        data.forEach((row) =&gt; {
+          const rowText = headers.map((key) =&gt; row[key]).join(" | ");
+          doc.text(rowText);
         });
       } else {
-<span class="cstat-no" title="statement not covered" >        doc.text("No data available.");</span>
+        doc.text("No data available.");
       }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      doc.end();</span>
+      doc.end();
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >      reject(error);</span>
     }
@@ -181,7 +181,7 @@ export const generatePDF = <span class="fstat-no" title="function not covered" >
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-25T22:12:06.019Z
+                at 2025-04-25T22:31:33.832Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
