@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for backend/controllers/eventController.js</title>
+    <title>Code coverage report for backend/utils/pdfGenerator.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">backend/controllers</a> eventController.js</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">backend/utils</a> pdfGenerator.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">4.34% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>10/12</span>
+                <span class='fraction'>1/23</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">4.76% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/12</span>
+                <span class='fraction'>1/21</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -103,76 +103,76 @@
 <a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Event } from "../models/Event.js";
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import PDFDocument from "pdfkit";
 &nbsp;
-const events = [
-  {
-    id: 1,
-    title: "Community Cleanup",
-    requiredSkills: ["Teamwork"],
-    urgency: "High",
-  },
-  {
-    id: 2,
-    title: "Food Drive",
-    requiredSkills: ["Organization"],
-    urgency: "Medium",
-  },
-];
+export const generatePDF = <span class="fstat-no" title="function not covered" >as</span>ync (data, title = <span class="branch-0 cbranch-no" title="branch not covered" >"Report")</span> =&gt; {
+<span class="cstat-no" title="statement not covered" >  return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve, reject) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    try {</span>
+      const doc = <span class="cstat-no" title="statement not covered" >new PDFDocument();</span>
+      const chunks = <span class="cstat-no" title="statement not covered" >[];</span>
 &nbsp;
-// Create Event
-export const createEvent = async (req, res) =&gt; {
-  try {
-    const newEvent = new Event(req.body); 
-    await newEvent.save(); // Saves to MongoDB
-<span class="cstat-no" title="statement not covered" >    res.json({ success: true, message: "Event created successfully!", event: newEvent });</span>
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-};
+<span class="cstat-no" title="statement not covered" >      doc.on("data", <span class="fstat-no" title="function not covered" >(c</span>hunk) =&gt; <span class="cstat-no" title="statement not covered" >chunks.push(chunk))</span>;</span>
+<span class="cstat-no" title="statement not covered" >      doc.on("end", <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+        const result = <span class="cstat-no" title="statement not covered" >Buffer.concat(chunks);</span>
+<span class="cstat-no" title="statement not covered" >        resolve(result);</span>
+      });
 &nbsp;
-// Get All Events
-export const getEvents = async (req, res) =&gt; {
-  try {
-    const events = await Event.find();
-    res.json(events);
-  } catch (error) {
-<span class="cstat-no" title="statement not covered" >    res.status(500).json({ success: false, message: "Server error" });</span>
-  }
+<span class="cstat-no" title="statement not covered" >      doc.fontSize(18).text(title, { align: "center" });</span>
+<span class="cstat-no" title="statement not covered" >      doc.moveDown();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      if (data.length &gt; 0) {</span>
+        const headers = <span class="cstat-no" title="statement not covered" >Object.keys(data[0]);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        doc.fontSize(12).text(headers.join(" | "), { underline: true });</span>
+<span class="cstat-no" title="statement not covered" >        doc.moveDown();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        data.forEach(<span class="fstat-no" title="function not covered" >(r</span>ow) =&gt; {</span>
+          const rowText = <span class="cstat-no" title="statement not covered" >headers.map(<span class="fstat-no" title="function not covered" >(k</span>ey) =&gt; <span class="cstat-no" title="statement not covered" >row[key])</span>.join(" | ");</span>
+<span class="cstat-no" title="statement not covered" >          doc.text(rowText);</span>
+        });
+      } else {
+<span class="cstat-no" title="statement not covered" >        doc.text("No data available.");</span>
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      doc.end();</span>
+    } catch (error) {
+<span class="cstat-no" title="statement not covered" >      reject(error);</span>
+    }
+  });
 };
 &nbsp;</pre></td></tr></table></pre>
 
