@@ -7,15 +7,18 @@ import mongoose from "mongoose";
 // Get Volunteer History
 export const getVolunteerHistory = async (req, res) => {
   try {
-    const volunteerId = req.params;
+    const volunteerId = req.params.id;
+    console.log(volunteerId);
 
     const history = await VolunteerHistory.find({
-      userId: new Types.ObjectId(volunteerId),
-    });
+      volunteerId: new Types.ObjectId(volunteerId),
+    }).populate("eventId");
+
+    console.log(history);
 
     return res.json({
       success: true,
-      history, // can be an empty array
+      history,
       message: history.length ? "History found." : "No history available.",
     });
   } catch (error) {
@@ -75,7 +78,7 @@ export const matchVolunteer = async (req, res) => {
 
     // Create a new volunteer-event match entry
     const newMatch = new VolunteerHistory({
-      volunteerId,
+      volunteerId: volunteer.userId._id,
       eventId,
       status: "Pending",
     });

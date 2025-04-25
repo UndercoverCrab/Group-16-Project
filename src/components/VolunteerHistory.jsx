@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 function VolunteerHistory() {
   const [history, setHistory] = useState([]);
+  const [eventDetails, setEventDetails] = useState(null);
 
   useEffect(() => {
     const fetchVolunteerHistory = async () => {
@@ -12,13 +13,26 @@ function VolunteerHistory() {
         );
 
         const data = await response.json();
+        console.log(data);
 
         setHistory(data.history);
+        const events = data.history.map((eventHistory) => ({
+          eventName: eventHistory.eventId.eventName,
+          eventDescription: eventHistory.eventId.eventDescription,
+          location: eventHistory.eventId.location,
+          requiredSkills: eventHistory.eventId.requiredSkills,
+          urgency: eventHistory.eventId.urgency,
+          eventDate: eventHistory.eventId.eventDate,
+        }));
+
+        setEventDetails(events);
       } catch (err) {}
     };
 
     fetchVolunteerHistory();
   }, []);
+
+  console.log(eventDetails);
 
   return (
     <div className="container-history">
@@ -37,15 +51,19 @@ function VolunteerHistory() {
         </thead>
         <tbody>
           {history.length > 0 ? (
-            history.map((event, index) => (
+            history.map((eventHistory, index) => (
               <tr key={index}>
-                <td>{event.eventName}</td>
-                <td>{event.eventDescription}</td>
-                <td>{event.location}</td>
-                <td>{event.requiredSkills}</td>
-                <td>{event.urgency}</td>
-                <td>{event.eventDate}</td>
-                <td>{event.participationStatus}</td>
+                <td>{eventHistory.eventId.eventName}</td>
+                <td>{eventHistory.eventId.eventDescription}</td>
+                <td>{eventHistory.eventId.location}</td>
+                <td>{eventHistory.eventId.requiredSkills.join(", ")}</td>
+                <td>{eventHistory.eventId.urgency}</td>
+                <td>
+                  {new Date(
+                    eventHistory.eventId.eventDate
+                  ).toLocaleDateString()}
+                </td>
+                <td>{eventHistory.status}</td>
               </tr>
             ))
           ) : (
