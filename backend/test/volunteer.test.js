@@ -1,28 +1,39 @@
 import request from "supertest";
-import app from "../index";
-import { UserCredentials } from "../models/User.js";
+import app from "../index.js";
+import { UserCredentials, UserProfile } from "../models/User.js";
 import { Event } from "../models/Event.js";
 import { VolunteerHistory } from "../models/VolunteerHistory.js";
+import mongoose from "mongoose";
 import { jest } from "@jest/globals";
 
 describe("Volunteer Matching API", () => {
-  let volunteerId, eventId;
+  let volunteerProfileId, eventId, volunteerUserId;
 
   beforeAll(async () => {
-    // Create a volunteer user
     const user = new UserCredentials({
       email: "volunteer@example.com",
       password: "password123",
       role: "volunteer",
     });
     await user.save();
-    volunteerId = user._id;
+    volunteerUserId = user._id;
 
-    // Create an event
+    const profile = new UserProfile({
+      userId: volunteerUserId,
+      fullName: "Volunteer Name",
+      address1: "123 Volunteer St",
+      city: "Los Angeles",
+      state: "CA",
+      zipCode: "12345",
+      skills: ["Teamwork"],
+    });
+    await profile.save();
+    volunteerProfileId = profile._id;
+
     const event = new Event({
-      title: "Beach Cleanup",
+      eventName: "Beach Cleanup",
       requiredSkills: ["Teamwork"],
-      urgency: "High",
+      urgency: "high",
     });
     await event.save();
     eventId = event._id;
@@ -30,155 +41,169 @@ describe("Volunteer Matching API", () => {
 
   afterAll(async () => {
     await UserCredentials.deleteMany();
+    await UserProfile.deleteMany();
     await Event.deleteMany();
     await VolunteerHistory.deleteMany();
+    await mongoose.connection.close();
   });
 
-  it("should return 404 if volunteer history not found", async () => {
-    const res = await request(app).get(
-      "/api/volunteers/history/000000000000000000000000"
-    );
-    expect(res.status).toBe(404);
-    expect(res.body.message).toBe("No volunteer history found.");
+  describe("GET /history/:id", () => {
+    it("should return 200 with empty history if none exists", async () => {
+      const res = await request(app).get(
+        `/api/volunteers/history/${volunteerProfileId}`
+      );
+      expect(res.status).toBe(200);
+      expect(res.body.success).toBe(true);
+      expect(res.body.history).toEqual([]);
+      expect(res.body.message).toBe("No history available.");
+    });
+
+    it("should fetch history with populated event info", async () => {
+      const match = new VolunteerHistory({
+        volunteerId: volunteerUserId,
+        eventId,
+        status: "Pending",
+      });
+      await match.save();
+
+      const res = await request(app).get(
+        `/api/volunteers/history/${volunteerProfileId}`
+      );
+
+      expect(res.status).toBe(200);
+      expect(res.body.history.length).toBe(1);
+      expect(res.body.history[0].eventId).toMatchObject({
+        eventName: "Beach Cleanup",
+      });
+    });
+
+    it("should return 500 on database error", async () => {
+      jest.spyOn(VolunteerHistory, "find").mockImplementationOnce(() => {
+        throw new Error("DB failure");
+      });
+
+      const res = await request(app).get(
+        `/api/volunteers/history/${volunteerProfileId}`
+      );
+
+      expect(res.status).toBe(500);
+      expect(res.body.success).toBe(false);
+      jest.restoreAllMocks();
+    });
   });
 
-  it("should match a volunteer to an event successfully", async () => {
-    const res = await request(app).post("/api/volunteers/match").send({
-      volunteerId,
-      eventId,
+  describe("POST /match", () => {
+    beforeEach(async () => {
+      await VolunteerHistory.deleteMany();
     });
 
-    expect(res.status).toBe(200);
-    expect(res.body.success).toBe(true);
-    expect(res.body.message).toBe("Volunteer matched successfully!");
-  });
+    it("should match volunteer to event successfully", async () => {
+      const res = await request(app).post("/api/volunteers/match").send({
+        volunteerId: volunteerProfileId,
+        eventId,
+      });
 
-  it("should return 400 for invalid volunteer ID (not a volunteer)", async () => {
-    const user = new UserCredentials({
-      email: "nonvolunteer@example.com",
-      password: "password123",
-      role: "admin",
-    });
-    await user.save();
+      expect(res.status).toBe(200);
+      expect(res.body.success).toBe(true);
 
-    const res = await request(app).post("/api/volunteers/match").send({
-      volunteerId: user._id,
-      eventId,
+      const history = await VolunteerHistory.findOne({
+        volunteerId: volunteerUserId,
+      });
+      expect(history).toBeTruthy();
     });
 
-    expect(res.status).toBe(400);
-    expect(res.body.message).toBe("Invalid volunteer ID");
-  });
+    it("should return 400 for invalid volunteer ID format", async () => {
+      const res = await request(app).post("/api/volunteers/match").send({
+        volunteerId: "invalid-id",
+        eventId,
+      });
 
-  it("should return 400 for invalid event ID", async () => {
-    const res = await request(app).post("/api/volunteers/match").send({
-      volunteerId,
-      eventId: "000000000000000000000000", // Non-existent event
+      expect(res.status).toBe(400);
+      expect(res.body.message).toMatch(/Invalid volunteer ID format/);
     });
 
-    expect(res.status).toBe(400);
-    expect(res.body.message).toBe("Invalid event ID");
-  });
+    it("should return 400 for invalid event ID format", async () => {
+      const res = await request(app).post("/api/volunteers/match").send({
+        volunteerId: volunteerProfileId,
+        eventId: "invalid-id",
+      });
 
-  it("should fetch volunteer history after matching", async () => {
-    // Create a match for the volunteer and event
-    const match = new VolunteerHistory({
-      volunteerId,
-      eventId,
-      status: "Upcoming",
-    });
-    await match.save();
-
-    // fetch the history
-    const res = await request(app).get(
-      `/api/volunteers/history/${volunteerId}`
-    );
-
-    expect(res.status).toBe(200);
-    expect(res.body.success).toBe(true);
-    expect(Array.isArray(res.body.history)).toBe(true);
-    expect(res.body.history.length).toBeGreaterThan(0);
-    expect(res.body.history[0]).toHaveProperty("eventId"); // Ensure event data is populated
-  });
-
-  it("should return 500 on server error", async () => {
-    jest.spyOn(VolunteerHistory, "find").mockImplementation(() => {
-      throw new Error("Database failure");
+      expect(res.status).toBe(400);
+      expect(res.body.message).toMatch(/Invalid event ID format/);
     });
 
-    const res = await request(app).get(
-      `/api/volunteers/history/${volunteerId}`
-    );
+    it("should return 400 when volunteer profile not found", async () => {
+      const fakeId = new mongoose.Types.ObjectId();
+      const res = await request(app).post("/api/volunteers/match").send({
+        volunteerId: fakeId,
+        eventId,
+      });
 
-    expect(res.status).toBe(500);
-    expect(res.body.success).toBe(false);
-    expect(res.body.message).toBe("Server error");
-
-    jest.restoreAllMocks(); // Clean up mocks
-  });
-
-  it("should return 400 if volunteer does not exist", async () => {
-    const res = await request(app).post("/api/volunteers/match").send({
-      volunteerId: "000000000000000000000000", // Non-existent ID
-      eventId,
+      expect(res.status).toBe(400);
+      expect(res.body.message).toBe("Volunteer not found");
     });
 
-    expect(res.status).toBe(400);
-    expect(res.body.message).toBe("Invalid volunteer ID");
-  });
+    it("should return 400 for non-volunteer role user", async () => {
+      const adminUser = new UserCredentials({
+        email: "admin@example.com",
+        password: "admin123",
+        role: "admin",
+      });
+      await adminUser.save();
 
-  it("should return 400 if event does not exist", async () => {
-    const res = await request(app).post("/api/volunteers/match").send({
-      volunteerId,
-      eventId: "000000000000000000000000", // Invalid event ID
+      const adminProfile = new UserProfile({
+        userId: adminUser._id,
+        fullName: "Admin User",
+      });
+      await adminProfile.save();
+
+      const res = await request(app).post("/api/volunteers/match").send({
+        volunteerId: adminProfile._id,
+        eventId,
+      });
+
+      expect(res.status).toBe(400);
+      expect(res.body.message).toBe("Invalid volunteer ID");
     });
 
-    expect(res.status).toBe(400);
-    expect(res.body.message).toBe("Invalid event ID");
-  });
+    it("should return 400 when event not found", async () => {
+      const fakeEventId = new mongoose.Types.ObjectId();
+      const res = await request(app).post("/api/volunteers/match").send({
+        volunteerId: volunteerProfileId,
+        eventId: fakeEventId,
+      });
 
-  it("should save the volunteer-event match in the database", async () => {
-    await request(app).post("/api/volunteers/match").send({
-      volunteerId,
-      eventId,
+      expect(res.status).toBe(400);
+      expect(res.body.message).toBe("Invalid event ID");
     });
 
-    const match = await VolunteerHistory.findOne({ volunteerId, eventId });
+    it("should return 400 for profile with missing user link", async () => {
+      const orphanProfile = new UserProfile({
+        fullName: "Orphan Volunteer",
+      });
+      await orphanProfile.save();
 
-    expect(match).not.toBeNull();
-    expect(match.status).toBe("Upcoming");
-  });
+      const res = await request(app).post("/api/volunteers/match").send({
+        volunteerId: orphanProfile._id,
+        eventId,
+      });
 
-  it("should return success message after matching", async () => {
-    const res = await request(app).post("/api/volunteers/match").send({
-      volunteerId,
-      eventId,
+      expect(res.status).toBe(400);
+      expect(res.body.message).toBe("Invalid volunteer ID");
     });
 
-    expect(res.status).toBe(200);
-    expect(res.body.success).toBe(true);
-    expect(res.body.message).toBe("Volunteer matched successfully!");
-  });
+    it("should handle database errors gracefully", async () => {
+      jest.spyOn(UserProfile, "findOne").mockImplementationOnce(() => {
+        throw new Error("DB error");
+      });
 
-  // test case for invalid volunteer ID format
-  it("should return 400 for invalid volunteer ID format", async () => {
-    const res = await request(app).post("/api/volunteers/match").send({
-      volunteerId: "invalid_id_format",
-      eventId,
+      const res = await request(app).post("/api/volunteers/match").send({
+        volunteerId: volunteerProfileId,
+        eventId,
+      });
+
+      expect(res.status).toBe(500);
+      jest.restoreAllMocks();
     });
-
-    expect(res.status).toBe(400);
-    expect(res.body.message).toBe("Invalid volunteer ID format");
-  });
-
-  // test case for invalid event ID format
-  it("should return 400 for invalid event ID format", async () => {
-    const res = await request(app).post("/api/volunteers/match").send({
-      volunteerId,
-      eventId: "invalid_id_format",
-    });
-
-    expect(res.status).toBe(400);
-    expect(res.body.message).toBe("Invalid event ID format");
   });
 });

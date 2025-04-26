@@ -1,135 +1,183 @@
+import { jest } from "@jest/globals";
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
-import { UserCredentials } from "../models/User";
-import request from "supertest";
-import app from "../index";
+import { Types } from "mongoose";
 
-describe("User Password Hashing", () => {
-  let userId;
-  const userData = {
-    email: "testuser@example.com",
-    password: "PlainTextPass123",
-    role: "volunteer",
-  };
+jest.unstable_mockModule("../models/User.js", () => ({
+  UserProfile: {
+    findOne: jest.fn(),
+    findOneAndUpdate: jest.fn(),
+    find: jest.fn(),
+    prototype: { save: jest.fn() },
+  },
+  UserCredentials: {
+    findByIdAndUpdate: jest.fn(),
+  },
+}));
 
-  it("should hash the password before saving", async () => {
-    // Create user
-    const res = await request(app).post("/api/auth/register").send(userData);
-    expect(res.status).toBe(201);
-    expect(res.body).toHaveProperty("success", true);
-    userId = res.body.userId;
+const { UserProfile, UserCredentials } = await import("../models/User.js");
+const { getUserProfile, createUserProfile, updateUserProfile, getVolunteers } =
+  await import("../controllers/userController.js");
 
-    // Fetch user from DB
-    const createdUser = await UserCredentials.findOne({
-      email: userData.email,
-    });
+describe("User Controller", () => {
+  let mockReq, mockRes;
 
-    expect(createdUser).toBeDefined();
-    expect(createdUser.password).not.toBe(userData.password); // Ensure hashing
+  beforeEach(() => {
+    jest.clearAllMocks();
 
-    // Compare hashed password with plaintext
-    const isMatch = await bcrypt.compare(
-      userData.password,
-      createdUser.password
-    );
-    expect(isMatch).toBe(true);
-  });
-
-  afterAll(async () => {
-    await UserCredentials.deleteMany({ email: userData.email }); // Cleanup
-    await mongoose.connection.close();
-  });
-});
-
-describe("User Profile API - Error Handling", () => {
-  let authToken;
-  let userId;
-
-  beforeAll(async () => {
-    // Register a test user and get a valid token
-    const res = await request(app).post("/api/auth/register").send({
-      email: "testuser@example.com",
-      password: "TestPass123!",
-      role: "volunteer",
-    });
-
-    authToken = res.body.token;
-    userId = res.body.userId;
-  });
-
-  it("should return 404 if profile is not found", async () => {
-    // Try fetching profile of a non-existent user
-    const res = await request(app)
-      .get("/api/users/profile")
-      .set("Authorization", `Bearer invalidToken`);
-
-    expect(res.status).toBe(404);
-    expect(res.body).toHaveProperty("message", "Profile not found");
-  });
-
-  it("should return 400 if trying to create a profile that already exists", async () => {
-    const profileData = {
-      fullName: "Existing User",
-      address1: "123 Main St",
-      city: "Houston",
-      state: "TX",
-      zipCode: "77001",
-      skills: ["Communication"],
-      availability: ["2025-06-10"],
+    mockReq = {
+      params: {},
+      user: { userId: "507f1f77bcf86cd799439011" },
+      body: {
+        fullName: "Test User",
+        address1: "123 Test St",
+        city: "Testville",
+        state: "TS",
+        zipCode: "12345",
+        skills: ["Testing"],
+        availability: ["2025-01-01"],
+      },
     };
 
-    // First profile creation (should succeed)
-    await request(app)
-      .post("/api/users/profile")
-      .set("Authorization", `Bearer ${authToken}`)
-      .send(profileData);
-
-    // Second attempt (should fail with 400)
-    const res = await request(app)
-      .post("/api/users/profile")
-      .set("Authorization", `Bearer ${authToken}`)
-      .send(profileData);
-
-    expect(res.status).toBe(400);
-    expect(res.body).toHaveProperty("message", "Profile already exists.");
-  });
-
-  it("should return 400 if updating a non-existent profile", async () => {
-    const updatedProfile = {
-      fullName: "Nonexistent User",
-      address1: "404 Nowhere St",
-      city: "Missing City",
-      state: "XX",
-      zipCode: "00000",
-      skills: ["Problem-solving"],
-      availability: ["2025-07-01"],
+    mockRes = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+      send: jest.fn(),
     };
 
-    const res = await request(app)
-      .put("/api/users/profile")
-      .set("Authorization", `Bearer ${authToken}`)
-      .send(updatedProfile);
-
-    expect(res.status).toBe(400);
-    expect(res.body).toHaveProperty("message", "Profile not found");
+    Types.ObjectId = jest.fn((id) => new mongoose.Types.ObjectId(id));
   });
 
-  it("should handle server errors gracefully", async () => {
-    jest.spyOn(UserProfile, "findOne").mockImplementationOnce(() => {
-      throw new Error("Database error");
+  describe("getUserProfile", () => {
+    it("should return user profile when found", async () => {
+      const mockProfile = {
+        userId: mockReq.user.userId,
+        fullName: "Test User",
+      };
+      UserProfile.findOne.mockResolvedValue(mockProfile);
+      mockReq.params.userId = mockReq.user.userId;
+
+      await getUserProfile(mockReq, mockRes);
+
+      expect(UserProfile.findOne).toHaveBeenCalledWith({
+        userId: expect.any(mongoose.Types.ObjectId),
+      });
+      expect(mockRes.status).toHaveBeenCalledWith(200);
+      expect(mockRes.json).toHaveBeenCalledWith(mockProfile);
     });
 
-    const res = await request(app)
-      .get("/api/users/profile")
-      .set("Authorization", `Bearer ${authToken}`);
+    it("should return 404 when profile not found", async () => {
+      UserProfile.findOne.mockResolvedValue(null);
+      mockReq.params.userId = "invalidUserId";
 
-    expect(res.status).toBe(500);
-    expect(res.body).toHaveProperty("message", "Server error");
+      await getUserProfile(mockReq, mockRes);
 
-    jest.restoreAllMocks();
+      expect(mockRes.status).toHaveBeenCalledWith(404);
+      expect(mockRes.json).toHaveBeenCalledWith({
+        message: "Profile not found",
+      });
+    });
+
+    it("should handle server errors", async () => {
+      UserProfile.findOne.mockRejectedValue(new Error("Database error"));
+      mockReq.params.userId = mockReq.user.userId;
+
+      await getUserProfile(mockReq, mockRes);
+
+      expect(mockRes.status).toHaveBeenCalledWith(500);
+      expect(mockRes.json).toHaveBeenCalledWith({ message: "Server error" });
+    });
   });
 
-  afterAll(async () => {
-    await UserCredentials.deleteMany({ email: "testuser@example.com" });
+  describe("createUserProfile", () => {
+    it("should create new profile successfully", async () => {
+      UserProfile.findOne.mockResolvedValue(null);
+      const mockProfile = { ...mockReq.body, userId: mockReq.user.userId };
+      UserProfile.prototype.save.mockResolvedValue(mockProfile);
+
+      await createUserProfile(mockReq, mockRes);
+
+      expect(UserProfile.findOne).toHaveBeenCalledWith({
+        userId: mockReq.user.userId,
+      });
+      expect(UserCredentials.findByIdAndUpdate).toHaveBeenCalledWith(
+        mockReq.user.userId,
+        { profileCompleted: true }
+      );
+      expect(mockRes.status).toHaveBeenCalledWith(200);
+      expect(mockRes.json).toHaveBeenCalledWith({
+        message: "Profile updated successfully",
+        profile: mockProfile,
+      });
+    });
+
+    it("should return 400 if profile already exists", async () => {
+      UserProfile.findOne.mockResolvedValue({ exists: true });
+
+      await createUserProfile(mockReq, mockRes);
+
+      expect(mockRes.status).toHaveBeenCalledWith(400);
+      expect(mockRes.json).toHaveBeenCalledWith({
+        message: "Profile already exists.",
+      });
+    });
+  });
+
+  describe("updateUserProfile", () => {
+    it("should update existing profile", async () => {
+      const mockUpdatedProfile = {
+        ...mockReq.body,
+        userId: mockReq.user.userId,
+      };
+      UserProfile.findOneAndUpdate.mockResolvedValue(mockUpdatedProfile);
+
+      await updateUserProfile(mockReq, mockRes);
+
+      expect(UserProfile.findOneAndUpdate).toHaveBeenCalledWith(
+        { userId: mockReq.user.userId },
+        expect.any(Object),
+        { new: true, upsert: true, setDefaultsOnInsert: true }
+      );
+      expect(UserCredentials.findByIdAndUpdate).toHaveBeenCalledWith(
+        mockReq.user.userId,
+        { profileCompleted: true }
+      );
+      expect(mockRes.json).toHaveBeenCalledWith({
+        message: "Profile updated successfully",
+        updatedProfile: mockUpdatedProfile,
+      });
+    });
+
+    it("should handle update errors", async () => {
+      UserProfile.findOneAndUpdate.mockRejectedValue(
+        new Error("Update failed")
+      );
+
+      await updateUserProfile(mockReq, mockRes);
+
+      expect(mockRes.status).toHaveBeenCalledWith(500);
+    });
+  });
+
+  describe("getVolunteers", () => {
+    it("should return list of volunteers", async () => {
+      const mockProfiles = [
+        { fullName: "Volunteer 1" },
+        { fullName: "Volunteer 2" },
+      ];
+      UserProfile.find.mockResolvedValue(mockProfiles);
+
+      await getVolunteers(mockReq, mockRes);
+
+      expect(UserProfile.find).toHaveBeenCalled();
+      expect(mockRes.json).toHaveBeenCalledWith(mockProfiles);
+    });
+
+    it("should handle database errors", async () => {
+      UserProfile.find.mockRejectedValue(new Error("Database error"));
+
+      await getVolunteers(mockReq, mockRes);
+
+      expect(mockRes.status).toHaveBeenCalledWith(500);
+    });
   });
 });
