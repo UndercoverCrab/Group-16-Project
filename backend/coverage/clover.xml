@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1745625873379" clover="3.2.0">
-  <project timestamp="1745625873379" name="All files">
-    <metrics statements="266" coveredstatements="248" conditionals="83" coveredconditionals="66" methods="40" coveredmethods="39" elements="389" coveredelements="353" complexity="0" loc="266" ncloc="266" packages="7" files="24" classes="24"/>
+<coverage generated="1745626987491" clover="3.2.0">
+  <project timestamp="1745626987491" name="All files">
+    <metrics statements="266" coveredstatements="248" conditionals="83" coveredconditionals="72" methods="40" coveredmethods="39" elements="389" coveredelements="359" complexity="0" loc="266" ncloc="266" packages="7" files="24" classes="24"/>
     <package name="backend">
       <metrics statements="23" coveredstatements="20" conditionals="2" coveredconditionals="1" methods="3" coveredmethods="2"/>
       <file name="database.js" path="C:\Users\quick\Downloads\VSCode-npm\class-project\backend\database.js">
@@ -280,48 +280,48 @@
       </file>
     </package>
     <package name="backend.services">
-      <metrics statements="36" coveredstatements="36" conditionals="24" coveredconditionals="15" methods="12" coveredmethods="12"/>
+      <metrics statements="36" coveredstatements="36" conditionals="24" coveredconditionals="21" methods="12" coveredmethods="12"/>
       <file name="notificationService.js" path="C:\Users\quick\Downloads\VSCode-npm\class-project\backend\services\notificationService.js">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
       </file>
       <file name="reportingService.js" path="C:\Users\quick\Downloads\VSCode-npm\class-project\backend\services\reportingService.js">
-        <metrics statements="34" coveredstatements="34" conditionals="24" coveredconditionals="15" methods="11" coveredmethods="11"/>
+        <metrics statements="34" coveredstatements="34" conditionals="24" coveredconditionals="21" methods="11" coveredmethods="11"/>
         <line num="7" count="6" type="stmt"/>
-        <line num="12" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="12" count="10" type="cond" truecount="2" falsecount="0"/>
         <line num="13" count="1" type="stmt"/>
         <line num="17" count="1" type="stmt"/>
         <line num="18" count="1" type="stmt"/>
-        <line num="20" count="5" type="stmt"/>
-        <line num="21" count="5" type="stmt"/>
-        <line num="22" count="5" type="stmt"/>
-        <line num="25" count="6" type="stmt"/>
-        <line num="29" count="6" type="stmt"/>
+        <line num="20" count="9" type="stmt"/>
+        <line num="21" count="9" type="stmt"/>
+        <line num="22" count="9" type="stmt"/>
+        <line num="25" count="10" type="stmt"/>
+        <line num="29" count="10" type="stmt"/>
         <line num="32" count="6" type="cond" truecount="0" falsecount="1"/>
-        <line num="33" count="3" type="stmt"/>
-        <line num="37" count="3" type="stmt"/>
-        <line num="38" count="3" type="stmt"/>
-        <line num="40" count="3" type="stmt"/>
-        <line num="41" count="3" type="stmt"/>
-        <line num="43" count="3" type="stmt"/>
-        <line num="44" count="3" type="stmt"/>
-        <line num="45" count="3" type="stmt"/>
-        <line num="47" count="3" type="stmt"/>
-        <line num="57" count="3" type="stmt"/>
+        <line num="33" count="5" type="stmt"/>
+        <line num="37" count="5" type="stmt"/>
+        <line num="38" count="5" type="stmt"/>
+        <line num="40" count="5" type="stmt"/>
+        <line num="41" count="5" type="stmt"/>
+        <line num="43" count="5" type="stmt"/>
+        <line num="44" count="5" type="stmt"/>
+        <line num="45" count="5" type="stmt"/>
+        <line num="47" count="5" type="stmt"/>
+        <line num="57" count="5" type="stmt"/>
         <line num="60" count="6" type="cond" truecount="0" falsecount="1"/>
-        <line num="61" count="3" type="stmt"/>
-        <line num="63" count="3" type="stmt"/>
-        <line num="64" count="3" type="stmt"/>
-        <line num="66" count="3" type="stmt"/>
-        <line num="67" count="3" type="stmt"/>
-        <line num="69" count="3" type="stmt"/>
-        <line num="70" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="61" count="5" type="stmt"/>
+        <line num="63" count="5" type="stmt"/>
+        <line num="64" count="5" type="stmt"/>
+        <line num="66" count="5" type="stmt"/>
+        <line num="67" count="5" type="stmt"/>
+        <line num="69" count="5" type="stmt"/>
+        <line num="70" count="5" type="cond" truecount="2" falsecount="0"/>
         <line num="71" count="1" type="stmt"/>
-        <line num="82" count="2" type="stmt"/>
-        <line num="83" count="2" type="stmt"/>
-        <line num="85" count="2" type="stmt"/>
-        <line num="95" count="3" type="stmt"/>
+        <line num="82" count="4" type="stmt"/>
+        <line num="83" count="4" type="stmt"/>
+        <line num="85" count="4" type="stmt"/>
+        <line num="95" count="5" type="stmt"/>
       </file>
     </package>
     <package name="backend.utils">

@@ -193,4 +193,84 @@ describe("reportingService", () => {
       expect(result.buffer.toString()).toContain("N/A");
     });
   });
+
+  it("should handle missing volunteerId in history records", async () => {
+    mockVolunteerHistoryFind([
+      {
+        eventId: {
+          eventName: "Orphan Event",
+          location: "Nowhere",
+          eventDate: new Date("2023-01-01"),
+        },
+        volunteerId: null,
+        status: "Pending",
+      },
+    ]);
+
+    UserProfile.find.mockResolvedValue([]);
+
+    const result = await generateVolunteerHistoryReport("csv");
+    const csvData = result.buffer.toString();
+
+    expect(csvData).toContain("N/A");
+  });
+
+  it("should handle missing eventId in history records", async () => {
+    mockVolunteerHistoryFind([
+      {
+        eventId: null,
+        volunteerId: { _id: "user1", email: "test@example.com" },
+        status: "Pending",
+      },
+    ]);
+
+    UserProfile.find.mockResolvedValue([
+      { userId: "user1", fullName: "Test User" },
+    ]);
+
+    const result = await generateVolunteerHistoryReport("csv");
+    const csvData = result.buffer.toString();
+
+    expect(csvData).toContain("N/A");
+  });
+
+  it("should handle events with missing dates", async () => {
+    Event.find.mockReturnValue({
+      populate: jest.fn().mockResolvedValue([
+        {
+          eventName: "Undated Event",
+          location: "Somewhere",
+          eventDate: null,
+          assignedVolunteers: [{ _id: "user3", email: "dated@example.com" }],
+        },
+      ]),
+    });
+
+    UserProfile.find.mockResolvedValue([
+      { userId: "user3", fullName: "Dated User" },
+    ]);
+
+    const result = await generateEventAssignmentsReport("csv");
+    expect(result.buffer.toString()).toContain("N/A");
+  });
+
+  it("should handle volunteers with missing emails", async () => {
+    Event.find.mockReturnValue({
+      populate: jest.fn().mockResolvedValue([
+        {
+          eventName: "No-Email Event",
+          location: "Void",
+          eventDate: new Date("2023-04-01"),
+          assignedVolunteers: [{ _id: "user4", email: null }],
+        },
+      ]),
+    });
+
+    UserProfile.find.mockResolvedValue([
+      { userId: "user4", fullName: "No-Email User" },
+    ]);
+
+    const result = await generateEventAssignmentsReport("csv");
+    expect(result.buffer.toString()).toContain("N/A");
+  });
 });
