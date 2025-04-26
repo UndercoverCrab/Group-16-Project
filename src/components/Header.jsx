@@ -1,12 +1,16 @@
+export default Header;
 import { Link } from "react-router-dom";
 
-function Header() {
+function Header({ role }) {  
+
   return (
     <header>
-      <Link to="/event-management">
-        {" "}
-        <button>Admin Panel</button>
-      </Link>
+      {/* Only show Event Management button for admins */}
+      {role === "admin" && (
+        <Link to="/event-management">
+          <button>Admin Panel</button>
+        </Link>
+      )}
       <p>Header</p>
     </header>
   );
