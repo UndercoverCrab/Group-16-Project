@@ -46,6 +46,7 @@ describe("Auth Routes", () => {
 
   it("should go through verifyToken and return profile with decoded JWT", async () => {
     const registerRes = await request(server).post("/api/auth/register").send({
+      name: "Test User",
       email: "testuser@example.com",
       password: "password123",
     });

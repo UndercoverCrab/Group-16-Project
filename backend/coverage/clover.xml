@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1745627783702" clover="3.2.0">
-  <project timestamp="1745627783702" name="All files">
-    <metrics statements="266" coveredstatements="247" conditionals="83" coveredconditionals="71" methods="40" coveredmethods="39" elements="389" coveredelements="357" complexity="0" loc="266" ncloc="266" packages="7" files="24" classes="24"/>
+<coverage generated="1745643082112" clover="3.2.0">
+  <project timestamp="1745643082112" name="All files">
+    <metrics statements="270" coveredstatements="248" conditionals="85" coveredconditionals="71" methods="41" coveredmethods="39" elements="396" coveredelements="358" complexity="0" loc="270" ncloc="270" packages="7" files="24" classes="24"/>
     <package name="backend">
       <metrics statements="23" coveredstatements="20" conditionals="2" coveredconditionals="1" methods="3" coveredmethods="2"/>
       <file name="database.js" path="C:\Users\quick\Downloads\VSCode-npm\class-project\backend\database.js">
@@ -190,9 +190,9 @@
       </file>
     </package>
     <package name="backend.middleware">
-      <metrics statements="10" coveredstatements="9" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>
+      <metrics statements="14" coveredstatements="10" conditionals="6" coveredconditionals="4" methods="2" coveredmethods="1"/>
       <file name="verifyToken.js" path="C:\Users\quick\Downloads\VSCode-npm\class-project\backend\middleware\verifyToken.js">
-        <metrics statements="10" coveredstatements="9" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>
+        <metrics statements="14" coveredstatements="10" conditionals="6" coveredconditionals="4" methods="2" coveredmethods="1"/>
         <line num="3" count="5" type="stmt"/>
         <line num="4" count="2" type="stmt"/>
         <line num="6" count="2" type="cond" truecount="2" falsecount="0"/>
@@ -203,6 +203,10 @@
         <line num="23" count="1" type="stmt"/>
         <line num="24" count="1" type="stmt"/>
         <line num="26" count="0" type="stmt"/>
+        <line num="30" count="5" type="stmt"/>
+        <line num="31" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
       </file>
     </package>
     <package name="backend.models">
