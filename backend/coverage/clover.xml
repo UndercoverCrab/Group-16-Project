@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1745626987491" clover="3.2.0">
-  <project timestamp="1745626987491" name="All files">
-    <metrics statements="266" coveredstatements="248" conditionals="83" coveredconditionals="72" methods="40" coveredmethods="39" elements="389" coveredelements="359" complexity="0" loc="266" ncloc="266" packages="7" files="24" classes="24"/>
+<coverage generated="1745627783702" clover="3.2.0">
+  <project timestamp="1745627783702" name="All files">
+    <metrics statements="266" coveredstatements="247" conditionals="83" coveredconditionals="71" methods="40" coveredmethods="39" elements="389" coveredelements="357" complexity="0" loc="266" ncloc="266" packages="7" files="24" classes="24"/>
     <package name="backend">
       <metrics statements="23" coveredstatements="20" conditionals="2" coveredconditionals="1" methods="3" coveredmethods="2"/>
       <file name="database.js" path="C:\Users\quick\Downloads\VSCode-npm\class-project\backend\database.js">
@@ -9,7 +9,7 @@
         <line num="3" count="5" type="stmt"/>
         <line num="4" count="5" type="stmt"/>
         <line num="5" count="5" type="stmt"/>
-        <line num="6" count="3" type="stmt"/>
+        <line num="6" count="4" type="stmt"/>
         <line num="8" count="0" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
       </file>
@@ -38,9 +38,9 @@
       </file>
     </package>
     <package name="backend.controllers">
-      <metrics statements="131" coveredstatements="118" conditionals="44" coveredconditionals="38" methods="13" coveredmethods="13"/>
+      <metrics statements="131" coveredstatements="117" conditionals="44" coveredconditionals="37" methods="13" coveredmethods="13"/>
       <file name="authController.js" path="C:\Users\quick\Downloads\VSCode-npm\class-project\backend\controllers\authController.js">
-        <metrics statements="29" coveredstatements="25" conditionals="18" coveredconditionals="16" methods="2" coveredmethods="2"/>
+        <metrics statements="29" coveredstatements="24" conditionals="18" coveredconditionals="15" methods="2" coveredmethods="2"/>
         <line num="6" count="5" type="stmt"/>
         <line num="15" count="5" type="stmt"/>
         <line num="16" count="4" type="stmt"/>
@@ -62,14 +62,14 @@
         <line num="53" count="4" type="stmt"/>
         <line num="55" count="4" type="stmt"/>
         <line num="56" count="4" type="cond" truecount="2" falsecount="0"/>
-        <line num="57" count="1" type="stmt"/>
-        <line num="60" count="3" type="stmt"/>
-        <line num="61" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="62" count="1" type="stmt"/>
+        <line num="57" count="2" type="stmt"/>
+        <line num="60" count="2" type="stmt"/>
+        <line num="61" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="62" count="0" type="stmt"/>
         <line num="65" count="2" type="stmt"/>
         <line num="77" count="2" type="stmt"/>
-        <line num="79" count="1" type="stmt"/>
-        <line num="80" count="1" type="stmt"/>
+        <line num="79" count="2" type="stmt"/>
+        <line num="80" count="2" type="stmt"/>
       </file>
       <file name="eventController.js" path="C:\Users\quick\Downloads\VSCode-npm\class-project\backend\controllers\eventController.js">
         <metrics statements="12" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
