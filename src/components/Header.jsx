@@ -5,8 +5,7 @@ function Header() {
     <header>
       <Link to="/event-management">
         {" "}
-        {/* Temporary button to open event page, will eventually make it only show for admins*/}
-        <button>Event Management</button>
+        <button>Admin Panel</button>
       </Link>
       <p>Header</p>
     </header>

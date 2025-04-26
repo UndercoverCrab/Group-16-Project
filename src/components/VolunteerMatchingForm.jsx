@@ -80,7 +80,10 @@ function VolunteerMatchingForm() {
   };
 
   return (
+    <>
+    <h1>Match Volunteer</h1>
     <form onSubmit={handleSubmit} className="volunteer-matching-form">
+      
       <div className="form-group">
         <label>Select Volunteer</label>
         <button
@@ -157,6 +160,7 @@ function VolunteerMatchingForm() {
         Match Volunteer
       </button>
     </form>
+    </>
   );
 }
 

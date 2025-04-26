@@ -64,7 +64,8 @@ function ReportingForm() {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <h1>Generate Report</h1>
+      <form onSubmit={handleSubmit} className='border'>
         <label>
           Report Type:
           <Select

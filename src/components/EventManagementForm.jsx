@@ -42,6 +42,10 @@ function EventManagementForm() {
     }, []);
 
     const lightdark = {
+      singleValue: (base) => ({
+        ...base,
+        color: isDark ? "#fffff" : "#00000"
+      }),
       control: (base) => ({
         ...base,
         backgroundColor: isDark ? "#2b2a33" : "#fffff",
@@ -94,7 +98,9 @@ function EventManagementForm() {
     };
 
   return (
-    <form className="" onSubmit={handleSubmit}>
+    <>
+    <h1>Create Event</h1>
+    <form className="border" onSubmit={handleSubmit}>
       <div className="form-field">
         <label>
           Event Name (required):
@@ -182,6 +188,7 @@ function EventManagementForm() {
       </div>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
     </form>
+    </>
   );
 }
 
